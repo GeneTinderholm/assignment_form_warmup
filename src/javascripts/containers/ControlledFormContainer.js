@@ -19,9 +19,12 @@ class ControlledFormContainer extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+    let formConstraints;
+    let errors;
+    let obj;
     switch (e.target.name) {
       case 'exampleEmail':
-        const formConstraints = {
+        formConstraints = {
           exampleEmail: {
             presence: true,
             email: true,
@@ -30,24 +33,82 @@ class ControlledFormContainer extends Component {
         const emailData = {
           exampleEmail: this.state.exampleEmail,
         };
-        const errors = validate(emailData, formConstraints);
+        errors = validate(emailData, formConstraints);
         if (errors) {
           this.setState({
             errors: {
               ...this.state.errors,
-              exampleEmail: errors,
+              exampleEmail: errors.exampleEmail,
             },
           });
+        } else {
+          obj = this.state.errors;
+          delete obj.exampleEmail
+          this.setState({
+            errors: obj
+          })
         }
-        else {
+        break;
+      case 'examplePassword':
+        formConstraints = {
+          examplePassword: {
+            presence: true,
+            length: {
+              minimum: 12
+            }
+          },
+        };
+        const passwordData = {
+          examplePassword: this.state.examplePassword,
+        };
+        errors = validate(passwordData, formConstraints);
+        if (errors) {
           this.setState({
             errors: {
               ...this.state.errors,
-              exampleEmail: []
+              examplePassword: errors.examplePassword
             }
+          });
+        } else {
+          obj = this.state.errors;
+          delete obj.examplePassword
+          this.setState({
+            errors: obj
           })
         }
+        break;
+      case 'exampleURL':
+        formConstraints = {
+          exampleURL: {
+            presence: true,
+            length: {
+              minimum: 12
+            }
+          },
+        };
+        const URLData = {
+          exampleURL: this.state.exampleURL,
+        };
+        errors = validate(URLData, formConstraints);
+        if (errors) {
+          this.setState({
+            errors: {
+              ...this.state.errors,
+              exampleURL: errors.exampleURL
+            }
+          });
+        } else {
+          obj = this.state.errors;
+          delete obj.exampleURL
+          this.setState({
+            errors: obj
+          })
+        }
+        break;
       default:
+        console.log("e.target.name: ", e.target.name);
+        
+        break;
     }
   };
 
