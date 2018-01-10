@@ -80,10 +80,7 @@ class ControlledFormContainer extends Component {
       case 'exampleURL':
         formConstraints = {
           exampleURL: {
-            presence: true,
-            length: {
-              minimum: 12
-            }
+            url: true
           },
         };
         const URLData = {
